@@ -116,12 +116,6 @@
             <artifactId>group-buy-market-trigger</artifactId>
         </dependency>
 
-        <!--openAI代码自动评审（github Actions）-->
-        <dependency>
-            <groupId>plus.gaga.middleware</groupId>
-            <artifactId>openai-code-review-sdk</artifactId>
-            <version>1.0</version>
-        </dependency>
 
         <dependency>
             <groupId>cn.bugstack</groupId>
