@@ -184,14 +184,6 @@
                 <version>7.3</version>
             </dependency>
 
-            <!--openAI代码自动评审（github Actions）-->
-            <dependency>
-                <groupId>plus.gaga.middleware</groupId>
-                <artifactId>openai-code-review-sdk</artifactId>
-                <version>1.0</version>
-            </dependency>
-
-
 
 
         </dependencies>
