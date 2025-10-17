@@ -1,0 +1,49 @@
+name: OpenAI Code Review (Library)
+
+on:
+  push:
+    branches: [ "main", "develop" ]
+  pull_request:
+    branches: [ "main", "develop" ]
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  review:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "8"
+
+      - name: Build project
+        run: mvn -q -DskipTests package
+
+      - name: Resolve commit message
+        id: msg
+        run: |
+          echo "COMMIT_MESSAGE<<EOF" >> $GITHUB_OUTPUT
+          git log -1 --pretty=%B >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+      - name: Run ReviewRunner
+        env:
+          GITHUB_REVIEW_LOG_URI: https://api.github.com/repos/${{ github.repository }}/commits/${{ github.sha }}/comments
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          COMMIT_PROJECT: ${{ github.repository }}
+          COMMIT_BRANCH: ${{ github.ref_name }}
+          COMMIT_AUTHOR: ${{ github.actor }}
+          COMMIT_MESSAGE: ${{ steps.msg.outputs.COMMIT_MESSAGE }}
+          WEIXIN_APPID: ${{ secrets.WEIXIN_APPID }}
+          WEIXIN_SECRET: ${{ secrets.WEIXIN_SECRET }}
+          WEIXIN_TOUSER: ${{ secrets.WEIXIN_TOUSER }}
+          WEIXIN_TEMPLATE_ID: ${{ secrets.WEIXIN_TEMPLATE_ID }}
+          CHATGLM_APIHOST: ${{ secrets.CHATGLM_APIHOST }}
+          CHATGLM_APIKEYSECRET: ${{ secrets.CHATGLM_APIKEYSECRET }}
+        run: |
+          java -cp target/classes:$(mvn -q -Dexec.classpathScope=runtime -DincludeScope=runtime -Dexec.executable=echo -Dexec.args='${project.artifactId}:${project.version}:${project.packaging}' --non-recursive org.codehaus.mojo:exec-maven-plugin:3.1.0:classpath) com.yourcompany.tools.ReviewRunner
