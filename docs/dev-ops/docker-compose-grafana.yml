@@ -43,7 +43,7 @@ services:
       - "8000:8000"
     environment:
       - GRAFANA_URL=http://grafana:4000
-      - GRAFANA_API_KEY=glsa_0Rx5P6T2AWjRoxaOHcozLJhzmYES8pqb_3cfe486c
+      - GRAFANA_API_KEY=xxx                #glsa_0Rx5P6T2AWjRoxaOHcozLJhzmYES8pqb_3cfe486c
     restart: unless-stopped
     networks:
       - my-network
