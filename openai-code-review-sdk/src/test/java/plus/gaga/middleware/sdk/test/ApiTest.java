@@ -1,4 +1,4 @@
-package plus.gaga.middleware.sdk.test;/*package plus.gaga.middleware.sdk.test;
+package plus.gaga.middleware.sdk.test;
 
 import com.alibaba.fastjson2.JSON;
 import org.junit.Test;
@@ -159,4 +159,4 @@ public class ApiTest {
             this.data = data;
         }
     }
-}*/
+}
